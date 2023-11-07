@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "Evat.IdentityServer": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "development"
+      },
+      "applicationUrl": "http://localhost:5001"
+    }
+  }
+}

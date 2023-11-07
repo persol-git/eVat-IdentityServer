@@ -1,0 +1,125 @@
+﻿@page
+@using Evat.IdentityServer.Pages.Account
+@model             ConfirmEmailModel
+@{
+    ViewData["Title"] = "Confirm Account";
+}
+
+<div class="app-content content ">
+    <div class="content-overlay"></div>
+    <div class="header-navbar-shadow"></div>
+    <div class="content-wrapper">
+        <div class="content-header row">
+        </div>
+        <div class="content-body">
+            <div class="auth-wrapper auth-cover">
+                <div class="auth-inner row m-0">
+                    <!-- Brand logo--><a class="brand-logo">
+                        <img src="~/GRA_primary-logo_72dpi_RGB_REV.webp" height="70px" />
+
+                    </a>
+                    <!-- /Brand logo-->
+                    <!-- Left Text-->
+                    <div class="d-none d-lg-flex col-lg-8 align-items-center p-5" style="background-color: #0f7396  !important">
+                        <div class="w-100 d-lg-flex align-items-center justify-content-center px-5"><img src="~/app-assets/images/pages/forgot-password.png" /></div>
+                    </div>
+                    <!-- /Left Text-->
+                    <!-- Login-->
+
+                    <div class="d-flex col-lg-4 align-items-center auth-bg px-2 p-lg-5">
+                        <div class="col-12 col-sm-8 col-md-6 col-lg-12 px-xl-2 mx-auto">
+
+                            <h1 class="card-title fw-bold mb-1" style="text-align: center !important;"><b>Welcome to GRA Taxpayers Portal</b> 👋</h1>
+
+                            <div class="divider my-2">
+                                <div class="divider-text">
+                                     <h5>@ViewData["Title"] 🔒</h5>
+                                </div>
+                            </div>
+                            <form class="auth-login-form mt-2" method="post">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <input asp-for="Input.Code" type="hidden" />
+                                <input asp-for="Input.UserName" type="hidden" />
+                                <input asp-for="Input.ReturnUrl" type="hidden" />
+
+                                 <div class="mb-1">
+                                    <div class="d-flex justify-content-between">
+                                        <label class="form-label" asp-for="Input.Password"></label>
+                                    </div>
+                                    <div class="input-group input-group-merge form-password-toggle">
+                                        <input class="form-control" placeholder="Password" asp-for="Input.Password" id="userPass" autofocus><span class="input-group-text cursor-pointer"><i data-feather="eye"></i></span>
+                                        <span asp-validation-for="Input.Password" class="text-danger"></span>
+                                    </div>
+                                </div>
+
+                              @*  <div class="mb-1">
+                                    <label class="form-label" asp-for="Input.Password"></label>
+                                    <input class="form-control" placeholder="Password" asp-for="Input.Password" id="userPass" autofocus><span class="input-group-text cursor-pointer"><i data-feather="eye"></i></span>
+                                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                                </div>*@
+
+                                @*<div class="mb-1">
+                                    <label class="form-label" asp-for="Input.ConfirmPassword"></label>
+                                    <input class="form-control" placeholder="Confrim Password" asp-for="Input.ConfirmPassword" id="userConfirmPass" autofocus><span class="input-group-text cursor-pointer"><i data-feather="eye"></i></span>
+                                    <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                                </div>*@
+
+
+                                <div class="mb-1">
+                                    <div class="d-flex justify-content-between">
+                                        <label class="form-label" asp-for="Input.ConfirmPassword"></label>
+                                    </div>
+                                    <div class="input-group input-group-merge form-password-toggle">
+                                        <input class="form-control" placeholder="Confrim Password" asp-for="Input.ConfirmPassword" id="userConfirmPass" autofocus><span class="input-group-text cursor-pointer"><i data-feather="eye"></i></span>
+                                        <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                                    </div>
+                                    <small class="text-danger" id="matchPass">Passwords does not match</small>
+                                </div>
+                                <button type="submit" class="btn btn-primary w-100" tabindex="4" id="btnConfirmPass" disabled>Confirm Account</button>
+                            </form>
+
+
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    <partial name="_ValidationSummary" />
+
+    <script>
+        $(document).ready(function () {
+            $("#matchPass").hide()
+            $("#userConfirmPass").on("input", function () {
+                if ($("#userPass").val() !== "") {
+                    if ($("#userPass").val() !== $("#userConfirmPass").val()) {
+                      
+                        $("#matchPass").show()
+                        $("#btnConfirmPass").prop("disabled", true)
+                    }else{
+                        $("#btnConfirmPass").prop("disabled", false)
+                        $("#matchPass").hide()
+                    }
+                } else {
+                    $("#btnConfirmPass").prop("disabled", true)
+                }
+
+            })
+
+            $("#btnConfirmPass").on('click', function(){
+                setTimeout(function () {
+                    $(this).prop("disabled", true)
+                }, 100);
+                $(this).html('Loading.....')
+            })
+
+        })
+    </script>
+}

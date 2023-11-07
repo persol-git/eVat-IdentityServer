@@ -1,0 +1,104 @@
+﻿@page
+@using Evat.IdentityServer.Pages.Account
+@model             LoginWith2faModel
+@{
+    ViewData["Title"] = "Two-factor Authentication";
+}
+
+<div class="app-content content ">
+    <div class="content-overlay"></div>
+    <div class="header-navbar-shadow"></div>
+    <div class="content-wrapper">
+        <div class="content-header row">
+        </div>
+        <div class="content-body">
+            <div class="auth-wrapper auth-cover">
+                <div class="auth-inner row m-0">
+                    <!-- Brand logo--><a class="brand-logo">
+                        <img src="~/GRA_primary-logo_72dpi_RGB_REV.webp" alt="" />
+
+                    </a>
+                    <!-- /Brand logo-->
+                    <!-- Left Text-->
+                    <div class="d-none d-lg-flex col-lg-8 align-items-center p-5 bg-cover" style="background-image:url('/img/login-bg.png')">
+                    </div>
+                    <!-- /Left Text-->
+                    <!-- Login-->
+
+                    <div class="d-flex col-lg-4 align-items-center auth-bg px-2 p-lg-5">
+                        <div class="col-12 col-sm-8 col-md-6 col-lg-12 px-xl-2 mx-auto">
+
+                            <h2 class="card-title fw-bolder mb-1">Two Step Verification @*&#x1F4AC;*@</h2>
+                            @*
+                                <h1 class="card-title fw-bold mb-1" style="text-align: center !important;"><b>Welcome to</b> <img src="~/img/logo-1.png" height="35px" style="margin-bottom: 15px;" alt="" /></h1>
+                                <div class="divider my-2">
+                                <div class="divider-text"><h5>@ViewData["Title"]</h5></div>
+
+                                <small>
+                                    Protecting your account is our top priority. 
+                                     Please confrim your account by entering the authorization code sent to your phone number provided.
+                                </small>
+                                </div>*@
+                            <p class="card-text mb-75"> 
+                                Protecting your account is our top priority. 
+                                Please confrim your account by entering the authorization code sent to your email or phone number provided.
+                            </p>
+                                <form method="post" asp-route-returnUrl="@Model.ReturnUrl">
+                                    <input asp-for="RememberMe" type="hidden" />
+                                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <h6>Type your 6 digit security code</h6>
+                                <div class="auth-input-wrapper d-flex align-items-center justify-content-between">
+                                    <input class="form-control auth-input height-50 text-center numeral-mask mx-25 mb-1" type="text" maxlength="1" autofocus="" id="Pass1"/>
+                                    <input class="form-control auth-input height-50 text-center numeral-mask mx-25 mb-1" type="text" maxlength="1" id="Pass2"/>
+                                    <input class="form-control auth-input height-50 text-center numeral-mask mx-25 mb-1" type="text" maxlength="1"  id="Pass3"/>
+                                    <input class="form-control auth-input height-50 text-center numeral-mask mx-25 mb-1" type="text" maxlength="1" id="Pass4"/>
+                                    <input class="form-control auth-input height-50 text-center numeral-mask mx-25 mb-1" type="text" maxlength="1" id="Pass5"/>
+                                    <input class="form-control auth-input height-50 text-center numeral-mask mx-25 mb-1" type="text" maxlength="1" id="Pass6"/>
+                                </div>
+                                    <div class="form-floating">
+                                        <input asp-for="Input.TwoFactorCode" class="form-control" autocomplete="off" id="optVal" placeholder="Enter the OTP" hidden/>
+                                        <label asp-for="Input.TwoFactorCode" class="form-label" hidden></label>
+                                        <span asp-validation-for="Input.TwoFactorCode" class="text-danger"></span>
+                                    </div>
+                                    <div>
+                                        <div class="checkbox">
+                                            <label asp-for="Input.RememberMachine" class="form-label">
+                                                <input asp-for="Input.RememberMachine" />
+                                                @Html.DisplayNameFor(m => m.Input.RememberMachine)
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <button type="submit" class="w-100 btn btn-lg btn-primary">Log in</button>
+                                    </div>
+                                </form>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationSummary" />
+
+    <script>
+        $(document).ready(function (){
+            $("#Pass1, #Pass2, #Pass3, #Pass4, #Pass5, #Pass6").on('input', function (){
+                let val1 = $("#Pass1").val(), val2 = $("#Pass2").val(), val3 = $("#Pass3").val(), val4 = $("#Pass4").val(), val5 = $("#Pass5").val(), val6 = $("#Pass6").val();
+                console.log(val1, val2, val3, val4, val5, val6)
+                $("#optVal").val(`${val1}${val2}${val3}${val4}${val5}${val6}`)
+                console.log($("#optVal").val())
+            })
+
+            $('input').keyup(function () {
+                if ($(this).val().length == $(this).attr("maxlength")) {
+                    var i = $('input').index(this);
+                    $('input').eq(i + 1).focus();
+                }
+            });
+        })
+    </script>
+}
