@@ -1,37 +1,52 @@
-name: .NET Core Deploy to IIS
+name: CI + CD
 
-on: 
-  # push:
-    # branches:
-    #   - "self-hosted"
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
   workflow_dispatch:
 
 jobs:
-  build-and-deploy:
-
+  Build:
     runs-on: [self-hosted,PSL-APP-VM3]
-    
     steps:
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v2
 
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: 3.0.100
+      - name: Compile
+        run: echo Hello, world!
     
-    # dotnet build and publish
-    - name: Build with dotnet
-      run: dotnet build --configuration Release .\eVat-IdentityServer
-
-    - name: dotnet publish 
-      run: |
-        dotnet publish -c Release -o dotnetcorewebapp .\eVat-IdentityServer
-
-    - name: Deploy to IIS
-      run: |
-        iisreset /stop
-        Copy-Item ./dotnetcorewebapp/* C:/inetpub/wwwroot/eVat-IdentityServer -Recurse -Force
-        iisreset /start
+  DeployDev:
+    name: Deploy to Dev 
+    if: github.event_name == 'pull_request'
+    needs: [Build]
+    runs-on: ubuntu-latest
+    environment: 
+      name: Development
+      url: 'http://dev.myapp.com'
+    steps:
+      - name: Deploy
+        run: echo I am deploying! 
     
-    - name: Curl the website as a smoke test
-      run: curl http://localhost/eVat-IdentityServer
+  DeployStaging:
+    name: Deploy to Staging 
+    if: github.event.ref == 'refs/heads/main'
+    needs: [Build]
+    runs-on: ubuntu-latest
+    environment: 
+      name: Staging
+      url: 'http://test.myapp.com'
+    steps:
+      - name: Deploy
+        run: echo I am deploying! 
+            
+  DeployProd:
+    name: Deploy to Production 
+    needs: [DeployStaging]
+    runs-on: ubuntu-latest
+    environment: 
+      name: Production
+      url: 'http://www.myapp.com'
+    steps:
+      - name: Deploy
+        run: echo I am deploying! 
