@@ -9,7 +9,7 @@ on:
 jobs:
   build-and-deploy:
 
-    runs-on: self-hosted
+    runs-on: [self-hosted,PSL-APP-VM3]
     
     steps:
     - uses: actions/checkout@v3
