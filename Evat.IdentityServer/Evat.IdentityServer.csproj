@@ -14,7 +14,7 @@
 
   <ItemGroup>
     <PackageReference Include="Coravel.Mailer" Version="4.0.2" />
-    <PackageReference Include="Duende.IdentityServer.AspNetIdentity" Version="6.0.0" />
+    <PackageReference Include="Duende.IdentityServer.AspNetIdentity" Version="6.0.5" />
     <PackageReference Include="Duende.IdentityServer.EntityFramework" Version="6.0.0" />
     <PackageReference Include="Grpc.AspNetCore" Version="2.40.0" />
 
